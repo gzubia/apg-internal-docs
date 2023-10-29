@@ -1,0 +1,853 @@
+%% ======================================================
+% TEMPLATE PREAMBLE FOR APG RESEARCH GROUP INTERNAL DOCS ||
+% Correspondence author: Gorka Zubia                     ||
+% Email: gorka.zubia@ehu.eus			         ||
+% First version 29/10/2023			         ||
+% =======================================================
+
+\documentclass[10pt, a4paper]{article}
+
+
+% ------------------------------------------------------------ %
+% INCLUDEAK                                             %
+% ------------------------------------------------------------ %
+% Package with programming tools geared primarily towards LaTeX class and package authors 
+\usepackage{etoolbox}       
+\usepackage{kvoptions}
+
+% PDFaren testua kopiatu ahal izateko
+\usepackage[utf8]{inputenc}
+
+\usepackage{ragged2e}
+
+% Testuaren estuera kontrolatzeko
+\usepackage{setspace}
+
+%% Gazteleraz ipintzeko
+%\usepackage[spanish,es-tabla]{babel}
+%\spanishdecimal{.}
+\usepackage[english]{babel}
+
+%% EHUko tipografia ipintzeko
+%\usepackage{fontspec}
+
+%% Eranskinak
+\usepackage[toc,title,page]{appendix}
+
+% Azpikogidoiak ipintzeko
+\usepackage{textcomp}
+
+% Erreferentziak eta estekak ipini ahal izateko
+\usepackage[colorlinks,citecolor=blue,linkcolor=blue]{hyperref}
+
+% AKRONIMOAK
+\usepackage[nogroupskip,nonumberlist,acronym, nomain,shortcuts]{glossaries-extra}
+
+%% Irudientzako
+\usepackage{graphicx}
+
+%% Goiburuentzat
+\usepackage{fancyhdr}
+\usepackage{xpatch}
+
+
+%% Marginak eta goiburuen konfiguraziorako
+% Allows control of paper geometry
+\usepackage{geometry}
+
+% Reiquired for color            
+\usepackage[table]{xcolor}
+
+%% Taulentzako
+\usepackage{booktabs}
+
+% for setting table width sizes             
+\usepackage{tabularx}
+
+% Solution for Latex 2018 error due to chngcntr package update
+% https://tex.stackexchange.com/questions/425600/latex-error-command-counterwithout-already-defined?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+\let\counterwithout\relax
+\let\counterwithin\relax
+
+% to reset counter of figures and tables per section            
+\RequirePackage{chngcntr}
+
+%Lerro anitz tauletan
+\usepackage{multirow}
+
+% Zutabe anitz tauletan
+\usepackage{multicol}
+
+%% Dezimalak alineatzeko tauletan
+\usepackage{siunitx}
+
+%% Lengoaia matematikoa erabiltzeko
+\usepackage{gensymb}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+%% Array ingurunea
+\usepackage{array}
+
+% To manage arrays in LaTeX
+% IMPORTANT: http://tex.stackexchange.com/questions/65073/latex-doesnt-recognize-endarray
+% Errors occure when 'arrayjob' package and 'amsmath' package are used because of \array
+% Using 'arrayjobx' resolves the issue by defining \arrayx macro instead of conflicting \array
+\usepackage{arrayjobx}
+
+%% Figurak sortzeko
+\usepackage{caption}
+
+\usepackage[labelformat=simple]{subcaption}	% Subfigures named like (a), (b), (c)...
+
+
+%%% To help align tables, figures, pages
+\usepackage{float}
+
+% for custom verbatim code definitions - block of code      
+\usepackage{fancyvrb}
+
+% for custom verbatim code definitions - inline code            
+\usepackage{newverbs}
+
+% Fixes issue with quotes being backwards
+\RequirePackage[autostyle, english = american]{csquotes} 
+
+% For enhanced reference capability must be loaded after amsmath package
+\usepackage[noabbrev,capitalise]{cleveref}
+
+%% Captions verbatimen
+\usepackage{cprotect}
+
+% Used for tracking version history of document
+\usepackage[nochapter]{vhistory}  
+
+%% Laukizuzenak sartzeko
+\usepackage{framed} %boxed{}
+%
+%% Testua identatzeko
+\usepackage{indentfirst}
+%
+%% Izenburuentzako
+\usepackage{enumitem}
+
+%% Kodea sartzeko
+\usepackage{listings}
+
+%% Atalen izenburuentzat
+\usepackage{titlesec}
+
+%% Edukinen taularentzako    
+\usepackage{titletoc}   
+
+%% Irudi zerrendaren titulurako
+\usepackage{tocloft}
+
+% To add appendices to docuemnt
+\usepackage[toc]{appendix}
+
+% to list matlab code - formatted
+\usepackage[framed,numbered,autolinebreaks]{mcode} 
+
+% For porper text encoding (certain characters dont show up in pdf properly)
+\usepackage[T1]{fontenc}
+
+%% Stringen lehenengo karakterea lortzeko
+\usepackage{xstring}
+
+% Resolve font encoding errors for missing commands
+\usepackage{textcomp}
+
+% For drawing manual pictures - i.e flowcharts, block diagrams, etc...
+\usepackage{tikz}
+
+% For creating PDF bookmarks in PDF viewer
+\usepackage{bookmark}
+
+% For creating custom line spacing
+\usepackage{setspace}
+
+% For adding a large letter to beginning of paragraph 
+\usepackage{lettrine}
+
+% To determine last page of each section
+\usepackage{lastpage}
+
+\usepackage{refcount}
+
+% To create for loops
+\usepackage{multido}
+
+% Additional package that allows for more than 9 symbols for footnotes
+\usepackage{alphalph}
+
+% For saythanks command
+\usepackage{abstract}
+
+\definecolor{subsectioncolor}{rgb}{0,0.44706,0.40392}
+
+
+\newcommand{\aref}[1]{the Appendix{\ref{#1}}} % To create the cross-reference of the appendices sections as "Appendix" 
+\newcommand{\sref}[1]{\textcolor{black}{Section}~\hyperref[#1]{\ref{#1}}} % To create the cross-reference of the sections as "Section", and make clickable just the number of the section, not "Section" word itself
+\newcommand{\ssref}[1]{\textcolor{black}{subsection}~\hyperref[#1]{\ref{#1}}} % To create the cross-reference of the sections as "subsection", and make clickable just the number of the section, not "subsection" word itself
+\newcommand{\ssrefs}[1]{\textcolor{black}{subsections}~\hyperref[#1]{\ref{#1}}} % To create the cross-reference of the sections as "subsection", and make clickable just the number of the section, not "subsection" word itself
+\newcommand{\sssubref}[1]{\hyperref[#1]{\ref{#1}}} % To create the cross-reference of the sections as "subsection", and make clickable just the number of the section, not "subsection" word itself
+
+\newcommand{\fref}[1]{\textcolor{subsectioncolor}{Fig.}~\hyperref[#1]{\ref{#1}}} 	% To create the cross-reference of the Figures as "Fig.", match its color with the subsection color,and make clickable just the number of the section, not "Fig." word itself
+\newcommand{\frefs}[1]{\textcolor{subsectioncolor}{Figs.}~\hyperref[#1]{\ref{#1}}} 	% To create the cross-reference of the Figures as "Figs.", match its color with the subsection color,and make clickable just the number of the section, not "Figs." word itself
+
+\newcommand{\subfref}[1]{\hyperref[#1]{\ref{#1}}} 	% To create the cross-reference of the Figures as "Figs.", match its color with the subsection color,and make clickable just the number of the section, not "Figs." word itself
+
+\newcommand{\tref}[1]{\textcolor{subsectioncolor}{Table}~\hyperref[#1]{\ref{#1}}} 	% To create the cross-reference of the Tables as "Table", match its color with the subsection color,and make clickable just the number of the section, not "Table" word itself
+\renewcommand\thesubfigure{(\alph{subfigure})} 										% To appear the subfigure "name" inside parentheses when referenced, for example, Fig. 7(a)
+
+%% Kolorezko kutxak marrazteko
+\usepackage{tcolorbox}
+
+%% Koloreak definitu
+\definecolor{apgBlueOriginal_face}{RGB}{102,206,245}
+\definecolor{apgBlueOriginal_edge}{RGB}{0,  173,239}
+\definecolor{mBlue_edge}{RGB}{17,  34,65}
+\definecolor{mBlue_face}{RGB}{230,  236,244}
+
+%%%% _____ (1.3.2) Authot ORCIDs ____________________________________________________
+\newcommand{\orcidGZ}{\orcidlink{0000-0002-3764-1675}}
+\newcommand{\orcidJZ}{\orcidlink{0000-0002-9137-1733}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECTION: Update tabular rule definitions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Command: midrule
+
+\def\midruleNew{\noalign{\ifnum0=`}\fi
+  \@aboverulesep=0pt
+  \global\@belowrulesep=0pt
+  \global\@thisruleclass=\@ne
+  \@ifnextchar[{\@BTrule}{\@BTrule[\lightrulewidth]}}
+
+\let\midrule\midruleNew
+
+% Command: toprule
+
+\def\topruleNew{\noalign{\ifnum0=`}\fi
+  \@aboverulesep=0pt
+  \global\@belowrulesep=0pt
+  \global\@thisruleclass=\@ne
+  \@ifnextchar[{\@BTrule}{\@BTrule[1.5pt]}}
+  
+\let\toprule\topruleNew
+
+% Command: bottomrule
+
+\def\bottomruleNew{\noalign{\ifnum0=`}\fi
+  \@aboverulesep=0pt
+  \global\@belowrulesep=0pt
+  \global\@thisruleclass=\@ne
+  \@ifnextchar[{\@BTrule}{\@BTrule[1.5pt]}}
+  
+\let\bottomrule\bottomruleNew
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECTION: Common Definitions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ % Define common colors
+\definecolor{input}{RGB}{61, 98, 233}
+
+% % Formatter for default values fo type input
+\newcommand{\varInput}[2]{{\normalfont\footnotesize\textbf{\color{input}\textbackslash{#1}}[{\normalfont#2}]}}
+\newcommand{\authorInput}[2]{\normalfont\footnotesize\textbf{\color{input}\textbackslash{#1}}=\{{\normalfont#2}\}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECTION: Document Author Parameters
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Define document authors array and default values
+\newarray\docAuthorName
+\readarray{docAuthorName}{\authorInput{docAuthorName(1)}{name}&\authorInput{docAuthorName(2)}{name}&&&&&&&&}
+
+% Define document author positions array and default values
+\newarray\docAuthorPosition
+\readarray{docAuthorPosition}{\authorInput{docAuthorPosition(1)}{input}&\authorInput{docAuthorPosition(2)}{input}&&&&&&&&}
+
+% Define document author organizations array and default values
+\newarray\docAuthorOrganization
+\readarray{docAuthorOrganization}{\authorInput{docAuthorOrganization(1)}{input}&\authorInput{docAuthorOrganization(2)}{input}&&&&&&&&}
+
+% Define document author locations array and default values
+\newarray\docAuthorLocation
+\readarray{docAuthorLocation}{\authorInput{docAuthorLocation(1)}{input}&\authorInput{docAuthorLocation(2)}{input}&&&&&&&&}
+
+\newcommand{\docAuthor}[5][99]{
+   \docAuthorName(#1)={#2}
+   \docAuthorPosition(#1)={#3}
+   \docAuthorOrganization(#1)={#4}
+   \docAuthorLocation(#1)={#5}
+   \def\@docAuthor{}
+}\docAuthor{}{}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECTION: Document Style Parameters
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\docRefRangeConjunction}[1][--]{\def\@docRefRangeConjunction{#1}}\docRefRangeConjunction{}
+% Defines how fussy LaTeX is about underfull or overfull boxes (horizontal and vertical )
+\hbadness=2000
+\vbadness=2000
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECTION: General formatting definitions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Define base geometry
+\geometry{margin=1in,includefoot,marginparwidth=0in} 
+
+% Define graphics inputs
+\DeclareGraphicsExtensions{.pdf,.png,.jpg,.ps,.gif,.eps}
+
+% Remove white space caused by using the various package environments
+\AtBeginEnvironment{center}{\vspace{-\baselineskip}}
+\AtEndEnvironment{center}{\vspace{-\baselineskip}}
+
+% Command to fix issue with outter quotation marks being the wrong direction
+\MakeOuterQuote{"}
+
+% Custom title formatting - to force new line for paragraph and subparagraph
+\titleformat{\paragraph}[hang]{\normalfont\normalsize}{\theparagraph}{1em}{}
+\titleformat{\subparagraph}[hang]{\normalfont\normalsize\itshape}{\thesubparagraph}{1em}{}
+
+% Make figure, table, and equation captions bold
+\captionsetup[table]{font={bf,normalsize},position=above,skip=0.5\baselineskip}
+\captionsetup[figure]{font={bf,normalsize},position=below}
+\captionsetup[equation]{font={bf,normalsize},position=auto}
+
+% Add new table columns 
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+% Define the caption skip parameter
+\setlength{\belowcaptionskip}{-0.25\baselineskip}
+
+% Change list structure spacing
+\setlist[itemize]{itemsep = 0pt}
+\setlist[enumerate]{itemsep = 0pt}
+\setlist[description]{itemsep = 0pt}
+
+% Set up hyperlink options
+\hypersetup{hidelinks}
+\hypersetup{urlcolor=cyan}
+
+% Define the maximum section depth
+\setcounter{secnumdepth}{6}
+
+%% ------------------------------------------------------------ %
+%%                         AURKIBIDEA                           %
+%% ------------------------------------------------------------ %
+
+\newcommand{\printTOC}{
+      % Create the TOC
+      \newpage
+      \setlength{\parskip}{0.4\baselineskip}
+      % Add a PDF bookmark in PDF viewer 
+      \phantomsection
+      \renewcommand\contentsname{Table of Contents}
+      \pdfbookmark[2]{Table of Contents}{ToC}
+      %Create the ToC
+      \begingroup
+      \hypersetup{linkcolor=black}
+      \tableofcontents
+      \endgroup
+      \setlength{\parskip}{\baselineskip}
+   }
+\newcommand{\printLOT}{
+      % Create a Table of Contents Entry for LOT
+      \newpage
+      \setlength{\parskip}{0.4\baselineskip}
+      \phantomsection
+      \bookmarksetupnext{level=subsection}
+      \addcontentsline{toc}{section}{List of Tables}
+      % Create LOT
+      \listoftables
+      \setlength{\parskip}{\baselineskip}
+}
+
+\newcommand{\printLOF}{
+      % Create a Table of Contents Entry for LOF
+      \newpage
+      \setlength{\parskip}{0.4\baselineskip}
+      \phantomsection
+      \bookmarksetupnext{level=subsection}
+      \addcontentsline{toc}{section}{List of Figures}
+      % Create LOF
+      \listoffigures
+      \setlength{\parskip}{\baselineskip}
+}
+
+\newcommand{\printLOA}{
+      % Change the glossary title to nothing, we will create our own
+      \renewcommand{\glossarysection}[2][]{}
+      \newpage
+      \setlength{\parskip}{0.25\baselineskip}
+      \phantomsection
+      \bookmarksetupnext{level=subsection}
+      \addcontentsline{toc}{section}{Acronyms}
+      \section*{Acronyms}
+      \printglossary[style=alttree,type=\acronymtype]
+      \setlength{\parskip}{\baselineskip} 
+}
+
+
+%%% ------------------------------------------------------------ %
+%%            TXANTILIOIAREN ITURRIAK              %
+%% ------------------------------------------------------------ %
+%%\setmainfont[
+%% Path		= 2_Fonts/,
+%% Ligatures	= TeX,
+%% UprightFont	= EHUSans-Light.otf,
+%% BoldItalicFont	= EHUSans-BoldItalic.otf,
+%% BoldFont      	= EHUSans-Bold.otf,
+%% ItalicFont    	= EHUSans-LightItalic.otf
+%% ]{EHUSans}
+
+%___________Dokumentuaren inizialak lortu______
+\def\firstletters{\bgroup \catcode`-=10 \catcode`(=10 \filA}
+\def\filA#1{\filB#1 {\end} }
+\def\filB#1#2 {\ifx\end#1\egroup \else#1\expandafter\filB\fi} 
+
+\edef\InizialakDocTitle{%
+	\noexpand\firstletters{\docTitle}
+}
+
+\edef\InizialakDocTypeTitle{%
+	\noexpand\firstletters{\docTypeTitle}
+}
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% TEMPLATE: Define document header and footer settings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Set the geometry for each page
+\geometry{head=0.3in,foot=0.25in,top=0.2in,left=1in,right=1in,bottom=0.95in,footskip=0.35in,includeheadfoot}
+%\geometry{head=0.5in,foot=0.25in,top=0.65in,left=1in,right=1in,bottom=0.95in,footskip=0.35in,includeheadfoot}
+% Set new paragraph indentation to zero
+\setlength{\parindent}{0in}
+
+% Define paragraph skip sizes - space between paragraphs
+\setlength{\parskip}{12pt}
+
+% Create a section break after each "section"
+\let\oldsection\section
+\renewcommand\section{\clearpage\oldsection}
+
+% Define that figures and tables are numbered based on section e.g. "Table X.X"
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+\counterwithin{equation}{section}
+
+% Define spacing between Section titles and text
+\titlespacing{\section}{0pt}{0.25\baselineskip}{0\baselineskip}
+\titlespacing{\subsection}{0pt}{0.25\baselineskip}{0\baselineskip}
+\titlespacing{\subsubsection}{0pt}{0.25\baselineskip}{0\baselineskip}
+\titlespacing{\paragraph}{0pt}{0.25\baselineskip}{0\baselineskip}
+\titlespacing{\subparagraph}{0pt}{0.25\baselineskip}{0\baselineskip}
+
+% Note: counterwithin for lstlisting needs to happen after \begin{document}
+%\AtBeginDocument{\counterwithin{lstlisting}{section}}
+
+% Define spacing between Section titles and text
+\titlespacing{\section}{0pt}{0.25\baselineskip}{0\baselineskip}
+\titlespacing{\subsection}{0pt}{0.25\baselineskip}{0\baselineskip}
+\titlespacing{\subsubsection}{0pt}{0.25\baselineskip}{0\baselineskip}
+\titlespacing{\paragraph}{0pt}{0.25\baselineskip}{0\baselineskip}
+\titlespacing{\subparagraph}{0pt}{0.25\baselineskip}{0\baselineskip}
+
+ % FRONT & MAINMATTER
+
+\makeatletter
+\newif\if@mainmatter
+\newcommand{\frontmatter}{%
+  \clearpage
+  \pagenumbering{roman}
+  \edef\computelastpage{%
+    \romannumeral\numexpr\getpagerefnumber{LastFrontPage}-1\relax}}
+\newcommand{\mainmatter}{%
+  \clearpage
+  \immediate\write\@auxout{\noexpand\newlabel{LastFrontPage}{{}{\arabic{page}}}}%
+  \@mainmattertrue
+  \pagenumbering{arabic}
+  \def\computelastpage{\pageref{LastPage}}}
+  \makeatother
+
+% Remove space after figure and table environments
+\AfterEndEnvironment{table}{\vspace{-1\baselineskip}}
+\AfterEndEnvironment{figure}{\vspace{-1\baselineskip}}
+\AtBeginEnvironment{quote}{\vspace{-\baselineskip}}
+\AtEndEnvironment{quote}{\vspace{-\baselineskip}}
+\AtBeginEnvironment{center}{\vspace{-0.5\baselineskip}}
+\AtEndEnvironment{center}{\vspace{-0.5\baselineskip}}
+\AtBeginEnvironment{itemize}{\vspace{-0.5\baselineskip}}
+\AtEndEnvironment{itemize}{\vspace{-0.5\baselineskip}}
+\AtBeginEnvironment{enumerate}{\vspace{-0.5\baselineskip}}
+\AtEndEnvironment{enumerate}{\vspace{-0.5\baselineskip}}
+
+% Define the headheight - set to zero, no header in this format
+\setlength{\headheight}{60pt}
+
+% % Modify the header and footer lines - set to zero to remove
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{1pt}
+
+\newcommand{\TitlePageGeometry}{\newgeometry{top=0.75in,left=1in,right=1in,bottom=0.75in}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TEMPLATE: Define document header and footer settings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Define size of the header/footer text
+\newcommand{\hfsize}{\footnotesize}
+
+% Create the Footer - Clear the current header/footer style
+\fancyhf{} 
+
+% Set the current header/footer style
+\pagestyle{fancy}
+
+% Define the centered header
+\chead{
+\begin{tabular}{|L{.58\textwidth}|p{.365\textwidth}|}
+   \hline
+   \multicolumn{2}{|c|}{
+      
+         %\hfsize\bfseries\docTypeTitle~-~\docTitle
+      \hfsize\bfseries \InizialakDocTypeTitle - \InizialakDocTitle
+   } \\
+   \hline
+   \multirow{2}{*}{\parbox{.58\textwidth}{\hfsize\hangindent=0.36in \raggedright Title: \docTitle}}
+      & \hfsize  Document No: \docNumber \\
+      & \hfsize  Effective Date: \docDate \\
+   \hline
+\end{tabular}
+\vspace{-22pt}
+}%
+%% Left footer
+\lfoot{\footnotesize\textbf{\docFooter}}
+%%
+%%% Right Footer
+\rfoot{\hfsize Page: \thepage \hspace{2pt} of \hspace{2pt} \begingroup\hypersetup{linkcolor=black}\computelastpage\endgroup}
+%___________Irudien erroa_________________
+\graphicspath{{2_figs/}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TEMPLATE: Settings for TOC, LOF, LOT, Acronyms
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% This command adds dots in TOC for all entries (sections didnt have them)
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+%\renewcommand{\cftdot}{} % Kendu puntutxuak aurkibidean
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % Gehitu puntutxuak TOC sarrera guztientzako (sections ez zeukaten)
+\renewcommand\cftdotsep{1.5} 			      % Puntutxuen arteko espazioa
+% Identazioa
+% Set the table of contents level depth
+\setcounter{tocdepth}{4}
+
+% Set the indent spacing
+\setlength{\cftsecindent}{0cm}
+\setlength{\cftsubsecindent}{0.5cm}
+\setlength{\cftsubsubsecindent}{1cm}
+\setlength{\cftparaindent}{1.5cm}
+\setlength{\cftsubparaindent}{2cm}
+
+% Create Table of Contents, ToC
+% Change font sizes in ToC
+\renewcommand\cftsecfont         {\fontsize{11pt}{6pt}\selectfont\bfseries}
+\renewcommand\cftsubsecfont      {\fontsize{10pt}{6pt}\selectfont}
+\renewcommand\cftsubsubsecfont   {\fontsize{10pt}{6pt}\selectfont}
+\renewcommand\cftparafont        {\fontsize{10pt}{6pt}\selectfont}
+\renewcommand\cftsubparafont     {\fontsize{10pt}{6pt}\selectfont}
+
+% Add some spacing so the section number and title dont overlap in TOC
+\setlength\cftsecnumwidth{1\baselineskip}
+\setlength\cftsubsecnumwidth{1.5\baselineskip}
+\setlength\cftsubsubsecnumwidth{2\baselineskip}
+\setlength\cftparanumwidth{2.5\baselineskip}
+\setlength\cftsubparanumwidth{3\baselineskip}
+\setlength{\cftbeforetoctitleskip}{1in}
+
+% Change font sizes in LoF and LoT
+\renewcommand\cftfigfont         {\fontsize{10pt}{6pt}\selectfont}
+\renewcommand\cfttabfont         {\fontsize{10pt}{6pt}\selectfont}
+
+% Add some spacing so the figure or table number and title dont overlap in LOF ot LOT
+\setlength\cftfignumwidth{35pt}
+\setlength\cfttabnumwidth{35pt}
+\setlength\cftfigindent{0pt}
+\setlength\cfttabindent{0pt}
+\setlength\cftbeforefigskip{0pt}
+\setlength\cftbeforetabskip{0pt}
+
+%%%% Eranskinen erreferentzia
+%%\newcommand{\aref}[1]{\hyperref[#1]{Anexo~\ref{#1}}}
+%
+%%% verb egiteko listingen captionetan
+%\protected\def\psverb#1{\def\innerpsverb##1#1{\texttt{##1}}\innerpsverb}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECTION: Main Report Section
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\AtBeginDocument{
+%   
+%   % Create the glossaries for citations and acronyms
+%   \makeglossaries 
+%
+%   % Define glossary style
+%   \renewcommand{\glsnamefont}[1]{\hspace{-0.5\parindent}\textbf{#1}} % Set aronyms back to bold
+%   \renewcommand{\glossarypreamble}{\normalsize} % Change fontsize
+%   \renewcommand{\arraystretch}{1.2}
+%   \setlength{\glspagelistwidth}{1.2\textwidth}
+%   \setlength{\glsdescwidth}{\textwidth}
+%   \glssetwidest[0]{ALongPlaceHolder}
+%
+%   % Reset the glossary entries (acronyms) so that they are re-defined after the executive summary or synopsis
+%   \glsresetall
+%}
+
+% Make the list of acronyms
+\renewcommand{\glsnamefont}[1]{\textbf{#1}} % Set aronyms back to bold
+\renewcommand{\glossarypreamble}{\small} % Change fontsize
+\renewcommand{\arraystretch}{1.2}
+\setlength{\glspagelistwidth}{0.8\textwidth}
+\setlength{\glsdescwidth}{0.8\textwidth}
+\glssetwidest[0]{ALongPlaceHolder}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TEMPLATE: Update the settings for the appendix
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% This adds the \backmatter to the begining of appendices to change numbering
+\AtBeginEnvironment{appendices}{
+   % For page numbering - back to roman
+   % \backmatter
+
+   % For subsection numbering - use alphanumeric combination
+   \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+
+   % This helps to setup pdf bookmarks for appendices
+   \titleformat{\section}{\normalfont\Large\bfseries\bookmarksetupnext{level=subsection}}{\thesection}{1em}{}
+   \titleformat{\subsection}{\normalfont\large\bfseries\bookmarksetupnext{level=subsubsection}}{\thesubsection}{1em}{}
+   \titleformat{\subsubsection}{\normalfont\normalsize\bfseries\bookmarksetupnext{level=paragraph}}{\thesubsubsection}{1em}{}
+   }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TEMPLATE: Define custom content commands to be used in template file(s)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\printRevisionLog}{
+      \newpage \null
+      \phantomsection
+      \pdfbookmark[2]{Revision Log}{revision}
+
+      \begin{center}
+         \textbf{REVISION LOG}
+      \end{center}
+
+      \vspace{0.25in}
+
+              	\docRevisionLog
+    
+       }
+
+\newcommand{\printAuthorPage}{
+	\checkdocAuthorName(1)
+	\ifemptydata
+  	% If not input for docContributorName(1), skip entire section
+	\else
+   	\newpage \null
+  	 \phantomsection
+ 	  \pdfbookmark[2]{Author Page}{author}
+
+  	 \begin{center}
+  	  	\textbf{AUTHOR PAGE}
+  	 \end{center}
+
+  	 \textbf{Prepared by:} \vspace{6pt}
+
+  	 \multido{\ii=1+2}{10}{%
+   	 \checkdocAuthorName(\ii)
+   	 \ifemptydata
+      	 % \docAuthor not defined for this index, skip
+    	\else
+       	\begin{minipage}{.48\textwidth}%
+	%       \ifdefstring{\@docSigned}{true}{
+        	  \textit{/s/ \docAuthorName(\ii)} \hfill \docSignDate 
+	%       }{
+	%          \textit{\small To Sign:} 
+	%          {\small\textnormal{\color{input}\textbackslash duocSignuued[{\color{black} true}]}}
+	%          {\small\textnormal{\color{input}\textbackslash docSignDauuute[{\color{black} date}]}}  
+	%       }  
+       		\vspace{6pt} \hrule \vspace{5pt}
+       		\small\textbf{\docAuthorName(\ii)} \hfill \textbf{Date} \break
+	%       \small\textbf{\docAuthorName(\ii)} \hfill \break
+       		\docAuthorPosition(\ii) \hfill \break
+       		\docAuthorOrganization(\ii) \hfill \break
+       		\docAuthorLocation(\ii) \hfill 
+       	\end{minipage}%
+       \begin{minipage}{.01\textwidth}%
+       		\hfill
+       \end{minipage}%
+       \edef\iinext{\number\numexpr\ii+1\relax}
+       \checkdocAuthorName(\iinext)
+       \ifemptydata
+          \vspace{12pt}
+          \break
+       \else
+          \begin{minipage}{.48\textwidth}%
+%          \ifdefstring{\@docSigned}{true}{
+             \textit{/s/ \docAuthorName(\iinext)} \hfill \docSignDate 
+  %        }{
+  %          \textit{\small To Sign:} 
+  %           {\small\textnormal{\color{input}\textbackslash douuucSigned[{\color{black} true}]}}
+  %          {\small\textnormal{\color{input}\textbackslash docSignDate[{\color{black} date}]}} 
+  %        }  
+            \vspace{6pt} \hrule \vspace{5pt}
+            \small\textbf{\docAuthorName(\iinext)} \hfill \textbf{Date} \break
+            \docAuthorPosition(\iinext) \hfill \break
+            \docAuthorOrganization(\iinext) \hfill \break
+            \docAuthorLocation(\iinext) \hfill 
+            \end{minipage}%
+            \hfill
+            \vspace{12pt}
+       \fi    
+    \fi   
+   }
+\fi     
+}
+
+% Header and footer in TOC/LOF/LOT
+\fancypagestyle{plain}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SECTION: Create all the front matter prior to user content
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\AtBeginDocument{
+
+   % Add a PDF bookmark in PDF viewer for all of front matter
+   \pdfbookmark[1]{Front Matter}{front}
+
+   \frontmatter
+
+   % Add cover sheet only if defined
+   \newpage \clearpage \thispagestyle{empty}
+   \addtocounter{page}{-1}
+   
+   \phantomsection
+   \pdfbookmark[2]{Title Page}{titlepage}
+   \TitlePageGeometry
+
+   % Create graphics at the top of the page
+   \begin{minipage}{0.25\textwidth}
+      \begin{flushleft}
+        \includegraphics[width=\textwidth]{\docLogo}
+      \end{flushleft}
+   \end{minipage}%
+   \begin{minipage}{0.7\textwidth}
+      \RaggedLeft\textbf{\large \docTypeTitle \\ \vspace{10pt} Technical Report}
+   \end{minipage}%
+
+   \vspace{\baselineskip}
+   {\color{black}\hrule height 2pt}
+
+   \vspace{0.5in}
+
+   \raggedright
+   
+   \begin{flushleft}
+      \textbf{\Large \docTitle} 
+      \setstretch{1.8}
+   \end{flushleft}
+
+   \vspace{24pt}
+
+   \textit{\large Document Number: \docNumber} 
+
+   \vspace{1in}
+
+   \textbf{\large Version: \docVersion}   % The current version numbe, the version number of the last entry—can be read with the command,\vhCurrentVersion
+   
+   \vspace{12pt}  
+   
+   {\large \docDate}
+
+    % fill in empty space
+   \vfill
+
+   \includegraphics[height=1in]{\docOrgLogo}
+
+   \vspace{-6pt}
+
+   \begin{flushleft}
+
+      \setlength{\parskip}{0pt}
+
+      \docOrganization
+
+   \end{flushleft}
+
+   \vspace{0.1in} 
+
+   \begin{center}
+      \footnotesize\textbf{\docFooter}
+   \end{center}
+
+   \vspace{0.15in} 
+
+   % Change the geometry back
+   \restoregeometry
+
+   % Print the revision log page
+   \printRevisionLog
+
+   % Print executive summary
+   %\printExecutiveSummary
+
+   % Print author page
+   \printAuthorPage
+
+   % Print contributor page
+   %\printContributorPage
+
+   % Print the signature page
+   %\printApproverPage
+   
+   % Create the Table of Contents
+   \printTOC
+
+   % Create the List of Tables
+   %\printLOT
+
+   % Create the List of Figures
+   %\printLOF
+
+   % Create the List of Listings
+   %\printLOL
+
+   % Create the List of Acronyms
+   %\printLOA
+
+   % Create the Nomenclature definition section
+   %\printNomenclature
+
+   % remove padding to row height as to no affect other tables
+   \setlength\extrarowheight{0pt} 
+
+   \mainmatter
+
+   % Make all text justified and normalsize
+   \justifying\normalsize
+
+   % Set paragraph indent to zero
+   \setlength{\parindent}{0pt}
+
+}
